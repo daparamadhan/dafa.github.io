@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Love Letter</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      .letter-container {
+        perspective: 1000px;
+      }
+      .letter {
+        transform-style: preserve-3d;
+        transition: transform 1s;
+      }
+      .letter.opened {
+        transform: rotateX(180deg);
+      }
+      .letter:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s ease-in-out;
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+        transition: transform 0.2s;
+      }
+      .heart {
+        position: absolute;
+        color: red;
+        font-size: 24px;
+        animation: float 4s infinite ease-in-out;
+      }
+      @keyframes float {
+        0% {
+          transform: translateY(0) scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: translateY(-50px) scale(1.2);
+          opacity: 0.8;
+        }
+        100% {
+          transform: translateY(-100px) scale(1);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body class="flex flex-col items-center justify-center h-screen bg-pink-100 relative overflow-hidden">
+    <div id="heart-container" class="absolute top-0 left-0 w-full h-full pointer-events-none"></div>
+    <div class="letter-container relative w-64 h-40">
+      <div id="letter" class="letter bg-pink-300 w-full h-full flex items-center justify-center rounded-xl shadow-xl text-center text-white text-lg font-bold">Click Open ❤️</div>
+      <div id="message" class="hidden absolute top-0 left-0 w-full h-full bg-pink-500 flex items-center justify-center rounded-xl shadow-xl text-white text-lg p-4">
+        "My love for you is like a journey, starting at forever and ending at never."
+      </div>
+    </div>
+    <div class="mt-6 flex space-x-4">
+      <button onclick="openLetter()" class="btn bg-red-500 text-white px-4 py-2 rounded-lg shadow-md">Open</button>
+      <button onclick="resetLetter()" class="btn bg-gray-500 text-white px-4 py-2 rounded-lg shadow-md">Reset</button>
+    </div>
+
+    <script>
+      function openLetter() {
+        document.getElementById('letter').classList.add('opened', 'hidden');
+        document.getElementById('message').classList.remove('hidden');
+        createHearts();
+      }
+      function resetLetter() {
+        document.getElementById('letter').classList.remove('opened', 'hidden');
+        document.getElementById('message').classList.add('hidden');
+      }
+      function createHearts() {
+        const container = document.getElementById('heart-container');
+        for (let i = 0; i < 20; i++) {
+          let heart = document.createElement('div');
+          heart.classList.add('heart');
+          heart.innerHTML = '❤️';
+          heart.style.left = Math.random() * 100 + 'vw';
+          heart.style.top = Math.random() * 100 + 'vh';
+          heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+          container.appendChild(heart);
+          setTimeout(() => {
+            heart.remove();
+          }, 4000);
+        }
+      }
+    </script>
+  </body>
+</html>
